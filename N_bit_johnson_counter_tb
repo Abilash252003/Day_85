@@ -1,0 +1,42 @@
+///100 Days of RTL///
+
+///Abilash P///
+
+///N bit Johnson Counter (Synchronous Reset)///
+
+module counter_tb ();
+  parameter N = 5;
+  reg CLK, RST;
+  wire [N-1:0]out;
+  
+  counter DUT (.CLK(CLK), .RST(RST), .out(out));
+  
+  initial 
+    begin
+      CLK=1;
+      forever #5 CLK = ~CLK;  
+    end
+  
+  initial
+    begin
+      RST = 1'b1;
+      #10;
+      RST = 1'b0;
+      #200;
+      RST = 1'b1;
+      #10;
+      RST = 1'b0;
+      #100;
+      $finish;
+    end
+  
+    initial
+     begin
+       $dumpfile("dump.vcd");
+       $dumpvars(1);
+     end
+  
+  initial
+    $monitor("simtime = %g, CLK = %b, Reset = %b, out = %b", $time, CLK, RST, out);
+  
+endmodule
